@@ -31,7 +31,7 @@ class Component_Chat_History(c.CTkFrame):
         self.chat_blocks_list = []
 
         # MAIN GRID LAYOUT
-        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure((0, 1), weight=1)
         self.grid_columnconfigure(0,weight=1)
 
         for i, item in enumerate(item_list):
@@ -40,6 +40,9 @@ class Component_Chat_History(c.CTkFrame):
 
     def add_user_message(self, message: str) -> None:
         if self.bg:
+            frame_title = c.CTkButton(self, text="PotatoGPT model v1.0.0", font=(font_nunito_var, 16), fg_color=BG_COLOR, border_width=2,
+                                      state="disabled", hover=False)
+            frame_title.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
             self.bg.grid_forget()
             self.bg_bool = False
 
@@ -49,13 +52,14 @@ class Component_Chat_History(c.CTkFrame):
         
 
         container = c.CTkFrame(self, corner_radius=10, fg_color=BG_COLOR)
-        container.grid(row=0, column=0, pady=7, padx=10, sticky="nsew")
+        container.grid(row=1, column=0, pady=7, padx=10, sticky="nsew")
 
         # Container Grid Layout
-        container.grid_rowconfigure(0, weight=1)
+        container.grid_rowconfigure(0, weight=0)
+        container.grid_rowconfigure(1, weight=1)
         container.grid_columnconfigure(0, weight=0)
         container.grid_columnconfigure(1, weight=1)
-        container.grid_columnconfigure(2, weight=0)
+        container.grid_columnconfigure(2, weight=1)
 
         # Image profile
         user_profile_image = c.CTkLabel(container, image=user_icon, corner_radius=10, fg_color=BG_COLOR, text="")
@@ -72,7 +76,7 @@ class Component_Chat_History(c.CTkFrame):
 
         # Option
         button_delete_msg = c.CTkButton(container, text="X", fg_color="#6b6c7b", corner_radius=10, border_width=0, hover=False)
-        button_delete_msg.grid(row=0, column=2, padx=5, pady=0)
+        button_delete_msg.grid(row=1, column=2, padx=5, pady=0)
 
         
 
