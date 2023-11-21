@@ -18,6 +18,8 @@ class Component_Welcome_Screen_Label(c.CTkLabel):
             **kwargs
         )
 
+        
+
 
 class Component_Welcome_Screen_Queries_Button(c.CTkFrame):
 

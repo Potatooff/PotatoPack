@@ -11,6 +11,7 @@ warning_message_for_user = "PotatoGPT can make mistakes. You should verify the i
 chat_box_placeholder_text = "Send a message..."
 chat_box_send_button_BG_COLOR = "#6b6c7b"
 chat_box_chat_entry_BG_COLOR = "#40414f"
+chat_history_bot_message_BG_COLOR = "#343541"
 
 
 # Profile variables
