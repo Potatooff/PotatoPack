@@ -88,9 +88,10 @@ class Component_ChatBox(c.CTkFrame):
                     chat_history[0].add_user_message(message=inp)
                 
                 else:
-                    print(chat_history[0])
                     self.master.default_chat_history.grid_forget()
                     self.master.window_sidebar.new_chat_button_on_click()
-                    chat_history[0].add_user_message(message=inp)
+                    chat_history = self.get_actual_chat_history()
+                    if chat_history:
+                        chat_history[0].add_user_message(message=inp)
         
             
