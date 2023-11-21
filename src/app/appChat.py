@@ -2,7 +2,7 @@ import customtkinter as c
 from src.app.components.shared import *
 from typing import Optional, Tuple, Union
 from src.app.Fonts import font_montserrat_var
-from src.app.components.sidebar import Component_Sidebar
+from src.app.components.sidebarv2 import Component_Sidebar
 from src.app.components.chatbox import Component_ChatBox
 from src.app.components.DefaultChat import Component_Welcome_Screen
 

@@ -67,17 +67,13 @@ class Component_Sidebar(c.CTkFrame):
         self.show_sidebar_button = c.CTkButton(self.master, text="",image=open_sidebar_icon,fg_color=BG_COLOR, width=50, hover=False,
                                                       command=self.show_sidebar_button_on_click)
         
-
+        self.count = 0
         # FUNCTIONALITY
     def new_chat_button_on_click(self) -> None:
         """ Add a new chat session tab with a random title"""
-
-        self.section.add_item(random_choice(
-            ["test", "bonjour", "Salutation", 
-             "Comment tuer des enfants", "How to k...?",
-             "Greetings"
-            ])
-        )
+        count = self.count + 1
+        self.section.add_session_tab(f"Item {count}")
+        self.count += 1
         
     def close_sidebar_button_on_click(self) -> None:
         """ Close sidebar when button get clicked"""
@@ -165,95 +161,92 @@ class Component_Section(c.CTkScrollableFrame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)  # Only one row at the top
 
-        # Initialization of variables
-        self.chat_conversation: list = []
-        self.chat_conversation_row: list = []
-
-        # This initializes the chat history with the stored sessions
         for i, item in enumerate(item_list):
             self.add_item(item)
 
-
-
-
-    
-    def remove_item(self, item) -> None:
-        """Remove a chat session tab and destroy associated chat history"""
-
-        for frame_holder, _, chatbox in self.chat_conversation_row:
-            if item == frame_holder.grid_slaves(row=0, column=0)[0].cget("text"):
-                frame_holder.destroy()
-                chatbox.destroy()  # Destroy associated chat history box
-                self.chat_conversation.remove(frame_holder)
-                self.chat_conversation_row.remove((frame_holder, _, chatbox))
-
-
-
-    
-    def add_item(self, item) -> None:
-        """Add a new chat session tab with a random title"""
-
-
-        # Functionality
-        def open_chat_session() -> None:
-            """Open chat session when the button is clicked"""
-            try:
-                for frame_holder, _, chatbox in self.chat_conversation_row:
-                        chatbox.grid_forget()  # Destroy associated chat history box
-            except:
-                pass
-
-            frame_holder_chatbox.grid(row=0, rowspan=5, column=1, padx=(0, 0), pady=0, sticky="nsew")
-
-        def close_chat_session() -> None:
-            """Close chat session tab when the button is clicked"""
-            self.master.master.master.master.default_chat_history.grid(row=0, rowspan=5, column=1, padx=(0, 0), pady=0, sticky="nsew")
-            if frame_holder.winfo_exists():  # Check if the widget still exists
-                frame_holder.destroy()
-                frame_holder_chatbox.destroy()
-                self.chat_conversation.remove(frame_holder)
-                self.chat_conversation_row = [(frame, i, chatbox) for i, (frame, _, chatbox) in enumerate(self.chat_conversation_row)]  # Update chat_conversation_row
-
-
+        # List of chat session
+        self.session_tabs = []
         
+    def get_widgets(self) -> None:
+        try:
+            self.session_tabs[-1][0].grid_info()['row']
+        except IndexError:
+            return None
         
+    def delete_everything(self):
+            """Delete everything in the grid"""
+            row = 0
+            start_row = 0
+            rowspan = 5
+            widgets_in_range = [self.master.master.master.master.grid_slaves(row=row, column=1) for row in range(start_row, start_row + rowspan)]
+            widgets_in_range = [widget for sublist in widgets_in_range for widget in sublist]
+            if widgets_in_range:
+                for widget in widgets_in_range:
+                    widget.grid_forget()
+                    # Use destroy to completely remove and destroy the widget
+        
+    def add_session_tab(self, name) -> None:
 
-        frame_holder_chatbox = Component_Chat_History(self.master.master.master.master, fg_color=BG_COLOR)  # This is the chat session / history
+        # Functionnality
+        def close_session_tab_on_click() -> None:
+            """Close the chat session tab when the button get clicked"""
+            for i in self.session_tabs:
+                if i[0] == session_tab:
+                    i[0].destroy()
+                    i[1].destroy()
+                    self.session_tabs.remove(i)
+                    break
+            session_tab.destroy()
 
-        # This is the container
-        frame_holder = c.CTkFrame(self, fg_color=SIDEBAR_BUTTON_BG_COLOR, corner_radius=8)
-        frame_holder.grid_columnconfigure((0, 1), weight=1)
+        def open_chat_history_on_click() -> None:
+            """Open the chat history when the button get clicked"""
+            self.delete_everything()
+            chat_history.grid(row=0, rowspan=5, column=1, padx=(0, 0), pady=0, sticky="nsew")
+        
+        # Every Components
+
+        chat_history = Component_Chat_History(self.master.master.master.master, fg_color=BG_COLOR)  # This is the chat session / history
+        session_tab = c.CTkFrame(self, fg_color=SIDEBAR_BUTTON_BG_COLOR, corner_radius=8)
+
+
+        # Session tab grid layout
+        session_tab.grid_columnconfigure((0, 1), weight=1)
 
         # New button to open chat session
-        self.open_chat_button = c.CTkButton(frame_holder, text=f"   {truncate_string(item)}", width=150, fg_color=SIDEBAR_BUTTON_BG_COLOR,
-                                            corner_radius=5, image=potato_icon, compound="left", anchor="w", hover=False,
-                                            font=(font_raleway_var, 13), command=open_chat_session)
-
-        self.open_chat_button.grid(row=0, column=0, padx=(10, 0), pady=(10, 10), sticky="w")
+        open_chat_history = c.CTkButton(session_tab, text=f"   {truncate_string(name)}", width=150, fg_color=SIDEBAR_BUTTON_BG_COLOR,
+                                        corner_radius=5, image=potato_icon, compound="left", anchor="w", hover=False,
+                                        font=(font_raleway_var, 13), command=open_chat_history_on_click)
+        
 
         # Close button to close chat session
-        self.close_chat_tab = c.CTkButton(frame_holder, text="", width=50, image=close_sidebar_icon, compound="right",
-                                        anchor="e",
-                                        fg_color=SIDEBAR_BUTTON_BG_COLOR, corner_radius=5, hover=False,
-                                        command=close_chat_session)
+        close_session_tab = c.CTkButton(session_tab, text="", width=50, image=close_sidebar_icon, compound="right",
+                                    anchor="e", fg_color=SIDEBAR_BUTTON_BG_COLOR, corner_radius=5, hover=False,
+                                    command=close_session_tab_on_click)
 
-        self.close_chat_tab.grid(row=0, column=1, padx=(5, 2), pady=(3, 3), sticky="e")
+
+        # ALL GRIDS
+        open_chat_history.grid(row=0, column=0, padx=(10, 0), pady=(10, 10), sticky="w")
+        close_session_tab.grid(row=0, column=1, padx=(5, 2), pady=(3, 3), sticky="e")
+        session_tab.grid(row=0, column=0, pady=5, padx=0, sticky="ew")
+        self.session_tabs.insert(0, (session_tab, chat_history))
+
 
         try:
-            for k in self.chat_conversation_row:
-                k[0].grid_forget()
-                k[0].grid(row=(k[1] + 1), column=0, pady=5, padx=0, sticky="ew")
-                self.chat_conversation_row[self.chat_conversation_row.index(k)] = (k[0], k[1] + 1, k[2])  # Update chat_conversation_row
+            row: int = 0
+            for i in self.session_tabs:
+                i[0].grid_forget()
+                i[0].grid(row= (row + 1), column=0, pady=5, padx=0, sticky="ew")
+                row += 1
+
+            del row
+
+                    # Use destroy to completely remove and destroy the widget
 
         except Exception as e:
-            pass#print(e)  # this is just a warning
+            print(e)
 
-        frame_holder.grid(row=0, column=0, pady=5, padx=0, sticky="ew")
 
-        self.chat_conversation.insert(0, frame_holder)  # Insert at the beginning of the list
-        self.chat_conversation_row.insert(0, (frame_holder, 0, frame_holder_chatbox))  # Insert at the beginning of the list (name, updated row, chatbox)
-    
-
+        
 
 
 class Component_ProfileBar(c.CTkFrame):
