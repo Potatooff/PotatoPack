@@ -8,6 +8,11 @@ data_assets_path = os.path.join(data_path, "assets")
 
 data_fonts_path = os.path.join(data_path, "fonts")
 
+data_images_path = os.path.join(data_path, "images")
+
+# BOT IMAGES GENERATED SIMULATION
+image_test = os.path.join(data_images_path, "test.png")
+
 
 
 # Image paths
@@ -21,6 +26,9 @@ image_open_sidebar = os.path.join(data_assets_path, "open_sidebar.png")
 image_send_queries = os.path.join(data_assets_path, "send_queries.png")
 image_home = os.path.join(data_assets_path, "home.png")
 image_waiting = os.path.join(data_assets_path, "waiting.png")
+image_dustbin = os.path.join(data_assets_path, "dustbin.png")
+image_ai = os.path.join(data_assets_path, "ai.png")
+image_cpu = os.path.join(data_assets_path, "cpu.png")
 
 
 # Font paths

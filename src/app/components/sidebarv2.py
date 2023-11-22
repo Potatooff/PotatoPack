@@ -218,7 +218,7 @@ class Component_Section(c.CTkScrollableFrame):
         
 
         # Every Components
-        chat_history = Component_Chat_History(self.master.master.master.master, fg_color=BG_COLOR)  # This is the chat session / history
+        chat_history = Component_Chat_History(self.master.master.master.master, fg_color=BG_COLOR)#, label_text="PotatoGPT v1.0.0")  # This is the chat session / history
         session_tab = c.CTkFrame(self, fg_color=SIDEBAR_BG_COLOR, corner_radius=8)
 
 
@@ -295,7 +295,7 @@ class Component_ProfileBar(c.CTkFrame):
         self.grid_columnconfigure((0, 1), weight=0)
 
         # This act as a white line
-        self.seperator = c.CTkButton(self, fg_color="#CCCCCC", height=3,text="", corner_radius=40, hover=False, state="disabled")
+        self.seperator = c.CTkButton(self, fg_color="#CCCCCC", height=3, text="", corner_radius=40, hover=False, state="disabled")
         self.seperator.grid(row=0, column=0, columnspan=2, padx=40, pady=(0, 0), sticky="sew")
         # end of white line
 

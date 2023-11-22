@@ -62,7 +62,8 @@ class Component_ChatBox(c.CTkFrame):
     
 
     def clear_user_input(self) -> None:
-        self.user_input_text_box.delete("1.0", "end")
+        self.user_input_text_box.delete("0.0", 'end')
+
 
 
     def get_actual_chat_history(self):
@@ -77,7 +78,7 @@ class Component_ChatBox(c.CTkFrame):
     def user_input_send_button_on_click(self, event = None) -> None:
         inp: str = self.get_user_input()
 
-        if inp is not None and inp != "":
+        if inp is not None and inp != "" and inp != "\n" and inp.strip():
             self.clear_user_input()
             print(inp)
 
@@ -92,6 +93,6 @@ class Component_ChatBox(c.CTkFrame):
                     self.master.window_sidebar.new_chat_button_on_click()
                     chat_history = self.get_actual_chat_history()
                     if chat_history:
-                        chat_history[0].add_user_message(message=inp)
+                        chat_history[0].add_user_message(message=str(inp))
         
             

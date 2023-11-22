@@ -18,7 +18,14 @@ potato_icon = _Load_Images(image_potato, sizes=(23, 23))
 open_sidebar_icon = _Load_Images(image_open_sidebar, sizes=(17, 17))
 send_queries_icon = _Load_Images(image_send_queries, sizes=(17, 17))
 home_icon = _Load_Images(image_home, sizes=(20, 20))
+dustbin_icon = _Load_Images(image_dustbin, sizes=(20, 20))
+ai_icon = _Load_Images(image_ai, sizes=(20, 20))
+cpu_icon = _Load_Images(image_cpu, sizes=(20, 20))
 
 
 
 # images vars
+
+
+# image test
+test_image = _Load_Images(image_test, sizes=(256, 256))
