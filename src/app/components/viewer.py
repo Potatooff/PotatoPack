@@ -24,5 +24,5 @@ class Window_ImageViewer(c.CTkToplevel):
         self.grid_rowconfigure(0, weight=1)
 
         # Image
-        self.image = c.CTkLabel(self, text="", image=self.image2view)
+        self.image: c.CTkLabel = c.CTkLabel(self, text="", image=self.image2view)
         self.image.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")

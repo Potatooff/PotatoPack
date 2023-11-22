@@ -165,7 +165,7 @@ class Component_Section(c.CTkScrollableFrame):
             self.add_item(item)
 
         # List of chat session
-        self.session_tabs = []
+        self.session_tabs: list = []
         
 
 
@@ -218,7 +218,7 @@ class Component_Section(c.CTkScrollableFrame):
         
 
         # Every Components
-        chat_history = Component_Chat_History(self.master.master.master.master, fg_color=BG_COLOR)#, label_text="PotatoGPT v1.0.0")  # This is the chat session / history
+        chat_history: Component_Chat_History = Component_Chat_History(self.master.master.master.master, fg_color=BG_COLOR)#, label_text="PotatoGPT v1.0.0")  # This is the chat session / history
         session_tab = c.CTkFrame(self, fg_color=SIDEBAR_BG_COLOR, corner_radius=8)
 
 
@@ -226,13 +226,13 @@ class Component_Section(c.CTkScrollableFrame):
         session_tab.grid_columnconfigure((0, 1), weight=1)
 
         # New button to open chat session
-        open_chat_history = c.CTkButton(session_tab, text=f"   {truncate_string(name)}", width=150, fg_color="transparent",
+        open_chat_history: c.CTkButton = c.CTkButton(session_tab, text=f"   {truncate_string(name)}", width=150, fg_color="transparent",
                                         corner_radius=5, image=potato_icon, compound="left", anchor="w", hover=False,
                                         font=(font_raleway_var, 13), command=open_chat_history_on_click)
         
 
         # Close button to close chat session
-        close_session_tab = c.CTkButton(session_tab, text="", width=50, image=close_sidebar_icon, compound="right",
+        close_session_tab: c.CTkButton = c.CTkButton(session_tab, text="", width=50, image=close_sidebar_icon, compound="right",
                                     anchor="e", fg_color="transparent", corner_radius=5, hover=False,
                                     command=close_session_tab_on_click)
 
@@ -295,25 +295,25 @@ class Component_ProfileBar(c.CTkFrame):
         self.grid_columnconfigure((0, 1), weight=0)
 
         # This act as a white line
-        self.seperator = c.CTkButton(self, fg_color="#CCCCCC", height=3, text="", corner_radius=40, hover=False, state="disabled")
+        self.seperator: c.CTkButton = c.CTkButton(self, fg_color="#CCCCCC", height=3, text="", corner_radius=40, hover=False, state="disabled")
         self.seperator.grid(row=0, column=0, columnspan=2, padx=40, pady=(0, 0), sticky="sew")
         # end of white line
 
         # User profile image
-        self.profile = c.CTkButton(self, image=user_icon, width=50, height=30, fg_color=SIDEBAR_BG_COLOR, corner_radius=5, 
+        self.profile: c.CTkButton = c.CTkButton(self, image=user_icon, width=50, height=30, fg_color=SIDEBAR_BG_COLOR, corner_radius=5, 
                                    text=f"{truncate_string(input_str=username, username=True)}", compound="left", anchor="sw", 
                                    hover=False,font=(font_raleway_var, 15))
         
         self.profile.grid(row=1, column=0, padx=(10, 0), pady=(5, 5), sticky="sw")
 
-        self.settings_button = c.CTkButton(self, image=settings_icon, width=30, height=30, fg_color=SIDEBAR_BG_COLOR, 
+        self.settings_button: c.CTkButton = c.CTkButton(self, image=settings_icon, width=30, height=30, fg_color=SIDEBAR_BG_COLOR, 
                                            corner_radius=5, text="", hover=False, command=self.settings_button_on_click)
         
         self.settings_button.grid(row=1, column=1, padx=(10, 0), pady=(0, 10), sticky="s")
 
 
         # Here is setting page initialization
-        self.settings_page = Component_SettingsPage(self.master.master, fg_color=BG_COLOR)
+        self.settings_page: Component_SettingsPage = Component_SettingsPage(self.master.master, fg_color=BG_COLOR)
     
 
     def settings_button_on_click(self) -> None:
@@ -330,8 +330,7 @@ class Component_ProfileBar(c.CTkFrame):
             widgets_in_range = [widget for sublist in widgets_in_range for widget in sublist]
             if widgets_in_range:
                 for widget in widgets_in_range:
-                    widget.grid_forget()
-                    # Use destroy to completely remove and destroy the widget
+                    widget.grid_forget() # Use destroy to completely remove and destroy the widget
                     
 
         delete_everything()

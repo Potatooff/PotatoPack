@@ -39,10 +39,10 @@ class Component_Welcome_Screen_Queries_Button(c.CTkFrame):
         self.grid_columnconfigure((0, 1, 3, 4, 5, 6), weight=1)
 
 
-        self.query_button_1 = c.CTkButton(self, text="How to use Onlyfan?", height=40, width=150, fg_color=BG_COLOR,
+        self.query_button_1: c.CTkButton = c.CTkButton(self, text="How to use Onlyfan?", height=40, width=150, fg_color=BG_COLOR,
                                           image=send_queries_icon, compound="right", font=(font_quicksand_var, 16), border_color="#6b6c7b",
                                           border_width=2, corner_radius=8)
-        self.query_button_3 = c.CTkButton(self, text="Why did my wife left me?", height=40, width=150, fg_color=BG_COLOR,
+        self.query_button_3: c.CTkButton = c.CTkButton(self, text="Why did my wife left me?", height=40, width=150, fg_color=BG_COLOR,
                                           image=send_queries_icon, compound="right", font=(font_quicksand_var, 16), border_color="#6b6c7b",
                                           border_width=2, corner_radius=8)
         
@@ -72,10 +72,10 @@ class Component_Welcome_Screen(c.CTkFrame):
 
 
         # Default label
-        self.default_label = Component_Welcome_Screen_Label(self, font=(font_ArchitectsDaughter_var, 44), text="PotatoGPT", fg_color=BG_COLOR)
+        self.default_label: Component_Welcome_Screen_Label = Component_Welcome_Screen_Label(self, font=(font_ArchitectsDaughter_var, 44), text="PotatoGPT", fg_color=BG_COLOR)
         self.default_label.grid(row=0, column=0, columnspan=2, padx=20, pady=(150, 20), sticky="nsew")
 
 
         # Pack of queries
-        self.queries = Component_Welcome_Screen_Queries_Button(self, fg_color=BG_COLOR)
+        self.queries: Component_Welcome_Screen_Queries_Button = Component_Welcome_Screen_Queries_Button(self, fg_color=BG_COLOR)
         self.queries.grid(row=1, column=0, columnspan=2, padx=(80, 0), pady=0, sticky="sew")

@@ -1,6 +1,9 @@
+# Libraries import
 import customtkinter as c
 from src.app.components.shared import *
 from typing import Optional, Tuple, Union
+
+# Files Import
 from src.app.Fonts import font_montserrat_var
 from src.app.components.sidebarv2 import Component_Sidebar
 from src.app.components.chatbox import Component_ChatBox
@@ -29,7 +32,7 @@ class APP_CHAT(c.CTk):
         self.grid_rowconfigure(0, weight=1)
 
         # Initialization on main window frame
-        self.main = APP_CHAT_MAIN_FRAME(self, fg_color=BG_COLOR)
+        self.main: APP_CHAT_MAIN_FRAME = APP_CHAT_MAIN_FRAME(self, fg_color=BG_COLOR)
         self.main.grid(row=0, column=0, sticky="nsew")
 
 
@@ -47,17 +50,17 @@ class APP_CHAT_MAIN_FRAME(c.CTkFrame):
 
 
         # Window - Sidebar 
-        self.window_sidebar = Component_Sidebar(self, width=200, height=self.winfo_height(), fg_color=SIDEBAR_BG_COLOR, corner_radius=0, 
+        self.window_sidebar: Component_Sidebar = Component_Sidebar(self, width=200, height=self.winfo_height(), fg_color=SIDEBAR_BG_COLOR, corner_radius=0, 
                                                 border_width=0) # Width + Height doesnt work here! No fix needed
         
         self.window_sidebar.grid(row=0, rowspan=6, column=0, padx=(0, 0), pady=0, sticky="nsew")
 
 
         # Window - Chatbox
-        self.window_chatbox = Component_ChatBox(self, height=100, fg_color=BG_COLOR, corner_radius=0, border_width=0)
+        self.window_chatbox: Component_ChatBox = Component_ChatBox(self, height=100, fg_color=BG_COLOR, corner_radius=0, border_width=0)
         self.window_chatbox.grid(row=5, column=1, padx=20, pady=0, sticky="nsew")
 
 
         # Window - Home Label
-        self.default_chat_history = Component_Welcome_Screen(self, fg_color=BG_COLOR)
+        self.default_chat_history: Component_Welcome_Screen = Component_Welcome_Screen(self, fg_color=BG_COLOR)
         self.default_chat_history.grid(row=0, rowspan=5, column=1, padx=(0, 0), pady=0, sticky="nsew")

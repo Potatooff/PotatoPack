@@ -26,5 +26,5 @@ class Component_SettingsPage(c.CTkFrame):
 
 
             # This is the title
-            self.title_text = c.CTkLabel(self, text="Settings", font=("Montserrat", 20), fg_color=BG_COLOR)
+            self.title_text: c.CTkLabel = c.CTkLabel(self, text="Settings", font=("Montserrat", 20), fg_color=BG_COLOR)
             self.title_text.grid(row=0, column=0, columnspan=2, padx=0, pady=(20, 20), sticky="nsew")
