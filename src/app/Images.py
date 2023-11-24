@@ -23,6 +23,11 @@ home_icon: CTkImage = _Load_Images(image_home, sizes=(20, 20))
 dustbin_icon: CTkImage = _Load_Images(image_dustbin, sizes=(20, 20))
 ai_icon: CTkImage = _Load_Images(image_ai, sizes=(20, 20))
 cpu_icon: CTkImage = _Load_Images(image_cpu, sizes=(20, 20))
+french_fries_icon: CTkImage = _Load_Images(image_french_fries, sizes=(35, 35))
+user_settings_icon: CTkImage = _Load_Images(image_user_settings, sizes=(35, 35))
+about_icon: CTkImage = _Load_Images(image_about, sizes=(35, 35))
+help_icon: CTkImage = _Load_Images(image_help, sizes=(35, 35))
+
 
 
 

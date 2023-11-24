@@ -29,6 +29,10 @@ image_waiting = os.path.join(data_assets_path, "waiting.png")
 image_dustbin = os.path.join(data_assets_path, "dustbin.png")
 image_ai = os.path.join(data_assets_path, "ai.png")
 image_cpu = os.path.join(data_assets_path, "cpu.png")
+image_french_fries = os.path.join(data_assets_path, "french_fries.png")
+image_user_settings = os.path.join(data_assets_path, "user_settings.png")
+image_about = os.path.join(data_assets_path, "about.png")
+image_help = os.path.join(data_assets_path, "help.png")
 
 
 # Font paths
