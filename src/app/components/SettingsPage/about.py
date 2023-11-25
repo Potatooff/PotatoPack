@@ -31,3 +31,4 @@ class Settings_AboutPage(c.CTkFrame):
                                               )
         
         self.button.grid(row=0, column=0, padx=20, pady=0, sticky="nsew")
+        self.button.grid(row=0, column=0, padx=10, pady=0, sticky="nsew")
