@@ -1,0 +1,12 @@
+{
+  "chat_session_1": {
+    "file_path": [
+      "path/to/your/chat_session_1.json"
+    ]
+  },
+  "chat_session_2": {
+    "file_path": [
+      "path/to/your/chat_session_2.json"
+    ]
+  }
+}
