@@ -13,19 +13,6 @@ data_images_path = os.path.join(data_path, "images")
 # BOT IMAGES GENERATED SIMULATION
 image_test = os.path.join(data_images_path, "test.png")
 
-# data app path
-data_app_path = os.path.join(data_path, "app")
-
-# history path
-
-data_app_history_path = os.path.join(data_app_path, "history")
-
-# data app images history path
-data_app_temp_path = os.path.join(data_app_path, "temp")
-
-# chatIds file path
-data_app_history_chatIds_path = os.path.join(data_app_history_path, "chatIds.json")
-
 
 
 # Image paths

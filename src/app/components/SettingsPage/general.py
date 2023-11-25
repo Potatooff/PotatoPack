@@ -31,6 +31,5 @@ class Settings_GeneralPage(c.CTkFrame):
                                                compound="left", anchor="w", font=(font_raleway_var, 22), height=75
                                               )
         
-        self.button.grid(row=0, column=0, padx=20, pady=0, sticky="nsew")
         self.button.grid(row=0, column=0, padx=10, pady=0, sticky="nsew")
 
