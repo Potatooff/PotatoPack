@@ -1,0 +1,10 @@
+{
+  "chat_1": {
+    "user_query": "Make an image of a cute cat",
+    "chatbot_response": ["Generating image of a cute cat", "path_to_image.png"]
+  },
+    "chat_2": {
+        "user_query": "how to open google",
+        "chatbot_response": ["Click on google icon"]
+    }
+}

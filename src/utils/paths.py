@@ -10,6 +10,13 @@ data_fonts_path = os.path.join(data_path, "fonts")
 
 data_images_path = os.path.join(data_path, "images")
 
+
+data_app_path = os.path.join(data_path, "app")
+data_app_temp_path = os.path.join(data_app_path, "temp")
+data_app_history_path = os.path.join(data_app_path, "history")
+data_app_history_order_path = os.path.join(data_app_history_path, "order.json")
+
+
 # BOT IMAGES GENERATED SIMULATION
 image_test = os.path.join(data_images_path, "test.png")
 
