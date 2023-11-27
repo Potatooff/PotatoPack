@@ -1,3 +1,4 @@
+from os import path
 import customtkinter as c
 from src.app.Fonts import *
 from src.app.Images import *
@@ -5,10 +6,14 @@ from src.utils.useful import *
 from src.app.components.shared import *
 from typing import Optional, Tuple, Union
 from random import choice as random_choice
+from src.utils.useful import GenerateRandomID
+from src.database.Order import ChatSessionManager
+
+from src.utils.paths import data_app_history_path
 from src.app.components.settings import Component_SettingsPage
 from src.app.components.chathistory import Component_Chat_History
 
-
+from src.database.History import Database_ChatHistory
 
 class Component_Sidebar(c.CTkFrame):
 
@@ -72,7 +77,10 @@ class Component_Sidebar(c.CTkFrame):
     def new_chat_button_on_click(self) -> None:
         """ Add a new chat session tab with a random title"""
         count = self.count + 1
+
+        # Add a new chat session tab
         self.section.add_session_tab(f"Item {count}")
+
         self.count += 1
         
     def close_sidebar_button_on_click(self) -> None:
@@ -166,7 +174,6 @@ class Component_Section(c.CTkScrollableFrame):
 
         # List of chat session
         self.session_tabs: list = []
-        
 
 
         
@@ -184,6 +191,12 @@ class Component_Section(c.CTkScrollableFrame):
 
 
     def add_session_tab(self, name) -> None:
+
+        # Create a new chat session on storage
+        Session_ID = GenerateRandomID()
+        Session_Chat_file_history = path.join(data_app_history_path, f"chat_session_{Session_ID}.json")
+        ChatSessionManager().add_chat_session(Session_Chat_file_history)
+        Database_ChatHistory(Session_Chat_file_history).add_chat()
 
         # Functionnality
         def close_session_tab_on_click() -> None:
@@ -218,7 +231,8 @@ class Component_Section(c.CTkScrollableFrame):
         
 
         # Every Components
-        chat_history: Component_Chat_History = Component_Chat_History(self.master.master.master.master, fg_color=BG_COLOR)#, label_text="PotatoGPT v1.0.0")  # This is the chat session / history
+        chat_history: Component_Chat_History = Component_Chat_History(self.master.master.master.master, fg_color=BG_COLOR, 
+        message_history=Session_Chat_file_history)#, label_text="PotatoGPT v1.0.0")  # This is the chat session / history
         session_tab = c.CTkFrame(self, fg_color=SIDEBAR_BG_COLOR, corner_radius=8)
 
 

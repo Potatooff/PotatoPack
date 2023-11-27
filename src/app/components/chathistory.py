@@ -14,16 +14,24 @@ from src.app.Fonts import (font_ArchitectsDaughter_var,
 from src.app.Images import (user_icon, 
                             dustbin_icon, 
                             cpu_icon,
+                            image_test,
                             ai_icon, 
-                            test_image
+                            test_image,
+                            test_image_width,
+                            test_image_height,
+                            Load_Images
                            )
 
+
+
+from src.database.History import Database_ChatHistory
 
 class Component_Chat_History(c.CTkFrame):
 
     def __init__(
             self, 
             master: any, 
+            message_history,
             item_list: list[tuple[str | None, bool | None]] = [],
             **kwargs
     ) -> None:
@@ -32,6 +40,8 @@ class Component_Chat_History(c.CTkFrame):
             master,
             **kwargs
         )
+
+        self.chat_history_file_path: str = message_history
 
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=0)
@@ -66,6 +76,7 @@ class Component_Chat_History(c.CTkFrame):
                 if i[0] == container:
                     i[0].destroy()
                     self.chat_blocks_list.remove(i)
+                    Database_ChatHistory(self.chat_history_file_path).delete_user_query(chat_name=chatName)
                     break
 
             container.destroy()
@@ -97,6 +108,9 @@ class Component_Chat_History(c.CTkFrame):
             self.main.grid_columnconfigure(0, weight=1)
             self.main.grid_rowconfigure(0, weight=0)  # Only one row at the top
         
+
+        # add message to chat history
+        chatName = Database_ChatHistory(self.chat_history_file_path).add_user_query(message)
 
         container: c.CTkFrame = c.CTkFrame(self.main, corner_radius=10, fg_color=BG_COLOR)
         container.grid(row=0, column=0, pady=12, padx=10, sticky="new")
@@ -134,7 +148,7 @@ class Component_Chat_History(c.CTkFrame):
                 row += 1
 
             del row
-            self.add_bot_message(message=message, image=test_image)
+            self.add_bot_message(chatname=chatName, message=message, image=test_image)
 
         except Exception as e:
             print(e)
@@ -142,11 +156,12 @@ class Component_Chat_History(c.CTkFrame):
         
 
 
-    def add_bot_message(self, message: str, image: any = None) -> None:
+    def add_bot_message(self, chatname: str, message: str, image: any = None) -> None:
 
         def open_image() -> None:
             if self.ImageViewer is None or not self.ImageViewer.winfo_exists():
-                self.ImageViewer: Window_ImageViewer = Window_ImageViewer(image2view=image)  # create window if its None or destroyed
+                # TODO: modify this line lol
+                self.ImageViewer: Window_ImageViewer = Window_ImageViewer(image2view=Load_Images(image_test, sizes=(test_image_width, test_image_height)), width_image=test_image_width, height_image=test_image_height)  # create window if its None or destroyed
             else:
                 self.ImageViewer.focus()  # if window exists focus it
 
@@ -156,6 +171,7 @@ class Component_Chat_History(c.CTkFrame):
                 if i[0] == container2:
                     i[0].destroy()
                     self.chat_blocks_list.remove(i)
+                    Database_ChatHistory(self.chat_history_file_path).delete_chat_response(chat_name=chatname)
                     break
 
             container2.destroy()
@@ -187,6 +203,7 @@ class Component_Chat_History(c.CTkFrame):
             self.main.grid_rowconfigure(0, weight=0)  # Only one row at the top
         
 
+
         container2: c.CTkFrame = c.CTkFrame(self.main, fg_color="#444654")
         container2.grid(row=0, column=0, pady=12, padx=0, sticky="new")
 
@@ -208,7 +225,15 @@ class Component_Chat_History(c.CTkFrame):
                                     justify="left", anchor="w")
             bot_answer.grid(row=0, column=1, padx=(8, 5), pady=10, sticky="nsew")
 
+            # add message to chat history
+            Database_ChatHistory(self.chat_history_file_path).add_chatbot_response(chat_name=chatname, chatbot_response=message)
+
         else:
+
+            # add message to chat history
+            Database_ChatHistory(self.chat_history_file_path).add_chatbot_response(chat_name=chatname, chatbot_response=[message, "path_to_image.png"])
+
+
             container2.grid_rowconfigure((0, 1), weight=1)
 
             bot_answer: c.CTkLabel = c.CTkLabel(container2, font=(font_nunito_var, 16), fg_color="#444654", text_color="#CCCCCC", text=message,
@@ -237,3 +262,5 @@ class Component_Chat_History(c.CTkFrame):
 
         except Exception as e:
             print(e)
+            
+

@@ -1,6 +1,6 @@
 import json
 
-class ChatHistory:
+class Database_ChatHistory:
     def __init__(self, filename):
         self.chat_history = {}
         self.file_name = filename
@@ -8,6 +8,7 @@ class ChatHistory:
 
     def add_chat(self):
         chat_name: str = f"chat_{len(self.get_all_chats())}"
+        
         if chat_name not in self.chat_history:
             self.chat_history[chat_name] = {}
             print(f"Chat {chat_name} added successfully!")
@@ -16,22 +17,27 @@ class ChatHistory:
             print(f"Chat {chat_name} already exists. Choose a different name.")
 
 
-    def add_user_query(self, chat_name, user_query):
-        if chat_name in self.chat_history:
-            self.chat_history[chat_name]["user_query"] = user_query
-            print(f"User query added to {chat_name} successfully!")
-            self.save_to_file()
-        else:
-            print(f"Chat {chat_name} not found.")
+    def add_user_query(self, user_query):
+        chat_name: str = f"chat_{len(self.get_all_chats())}"
+
+        if chat_name not in self.chat_history:
+            self.add_chat()
+
+        self.chat_history[chat_name]["user_query"] = user_query
+        print(f"User query added to {chat_name} successfully!")
+        self.save_to_file()
+
+        return chat_name
 
 
     def add_chatbot_response(self, chat_name, chatbot_response):
-        if chat_name in self.chat_history:
-            self.chat_history[chat_name]["chatbot_response"] = chatbot_response
-            print(f"Chatbot response added to {chat_name} successfully!")
-            self.save_to_file()
-        else:
-            print(f"Chat {chat_name} not found.")
+        if chat_name not in self.chat_history:
+            self.add_chat()
+
+        self.chat_history[chat_name]["chatbot_response"] = chatbot_response
+        print(f"User query added to {chat_name} successfully!")
+        self.save_to_file()
+
 
 
     def delete_chat(self, chat_name):
@@ -45,24 +51,40 @@ class ChatHistory:
 
     def delete_user_query(self, chat_name):
         if chat_name in self.chat_history:
-            del self.chat_history[chat_name]["user_query"]
-            print(f"User query for {chat_name} deleted successfully!")
+            if "user_query" in self.chat_history[chat_name] and self.chat_history[chat_name]["user_query"]:
+                del self.chat_history[chat_name]["user_query"]
+                print(f"User query for {chat_name} deleted successfully!")
+            else:
+                self.delete_chat(chat_name)
             self.save_to_file()
         else:
             print(f"Chat {chat_name} not found.")
 
 
+
     def delete_chat_response(self, chat_name):
         if chat_name in self.chat_history:
-            del self.chat_history[chat_name]["chatbot_response"]
+            if "chatbot_response" in self.chat_history[chat_name] and self.chat_history[chat_name]["chatbot_response"]:
+                del self.chat_history[chat_name]["chatbot_response"]
+                self.save_to_file()
+                print(f"Chat response for {chat_name} deleted successfully!")
+            else:
+                self.delete_chat(chat_name)
             self.save_to_file()
-            print(f"Chat response for {chat_name} deleted successfully!")
-
         else:
             print(f"Chat {chat_name} not found.")
 
 
     def save_to_file(self):
+        # Will delete empty chats before saving!
+        try:
+            #for i in self.chat_history:
+            #    if self.chat_history[i] == {}:
+            #        del self.chat_history[i]
+            print("oups")
+        except:
+            pass
+
         with open(self.file_name, 'w') as file:
             json.dump(self.chat_history, file, indent=2)
         print("Chat history saved successfully!")
@@ -93,6 +115,7 @@ class ChatHistory:
         except FileNotFoundError:
             print(f"File {self.file_name} not found. Starting with an empty chat history.")
 
+"""
 # Example usage:
 chat_history_manager = ChatHistory()
 
@@ -116,3 +139,4 @@ print("User Query:", user_query)
 # Getting chatbot response for a specific chat
 chatbot_response = chat_history_manager.get_chatbot_response("chat_1")
 print("Chatbot Response:", chatbot_response)
+"""

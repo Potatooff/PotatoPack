@@ -4,6 +4,8 @@ import customtkinter as c
 class Window_ImageViewer(c.CTkToplevel):
     def __init__(
             self, 
+            width_image,
+            height_image,
             image2view,
             *args, 
             **kwargs
@@ -16,7 +18,7 @@ class Window_ImageViewer(c.CTkToplevel):
         self.image2view = image2view
         #self.geometry
         self.title("Image Viewer v1.0.0")
-        self.geometry(f"{500}x{500}")
+        self.geometry(f"{width_image}x{height_image}")
 
 
         # MAIN GRID LAYOUT

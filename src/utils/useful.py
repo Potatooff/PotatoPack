@@ -15,3 +15,7 @@ def truncate_string(input_str: str, length: int = 12, username: bool = False):
             return input_str  
     
 
+def GenerateRandomID(length: int = 15) -> str:
+    from random import choices; from string import ascii_uppercase, digits
+    """ Generate a random ID"""
+    return ''.join( choices(ascii_uppercase + digits, k=length))

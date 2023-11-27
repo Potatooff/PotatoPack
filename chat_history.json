@@ -1,9 +1,0 @@
-{
-  "chat_1": {
-    "user_query": "Make an image of a cute cat",
-    "chatbot_response": [
-      "Generating image of a cute cat",
-      "path_to_image.png"
-    ]
-  }
-}
