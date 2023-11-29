@@ -1,0 +1,24 @@
+{
+  "chat_0": {},
+  "chat_1": {
+    "user_query": "hello world!",
+    "chatbot_response": [
+      "hello world!",
+      "C:\\Users\\Chris\\Desktop\\potatoui\\data\\images\\test2.png"
+    ]
+  },
+  "chat_2": {
+    "user_query": "hi",
+    "chatbot_response": [
+      "hi",
+      "C:\\Users\\Chris\\Desktop\\potatoui\\data\\images\\test.png"
+    ]
+  },
+  "chat_3": {
+    "user_query": "lol",
+    "chatbot_response": [
+      "lol",
+      "c:\\Users\\Chris\\Desktop\\potatoui\\data\\images\\test.png"
+    ]
+  }
+}

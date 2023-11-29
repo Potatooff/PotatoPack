@@ -26,6 +26,8 @@ class ChatSessionManager:
         self.chat_sessions[session_name]['file_path'].insert(0, file_path)
         self.save_chat_sessions()
 
+        return session_name
+
 
     def delete_chat_session(self, session_name):
         if session_name in self.chat_sessions:
@@ -37,6 +39,12 @@ class ChatSessionManager:
             return self.chat_sessions[session_name].get('file_path', [])
         else:
             return []
+        
+    def get_all_sessions(self):
+        return list(self.chat_sessions.keys())
+    
+    def format_all_sessions(self):
+        return [i.replace('chat_', '') for i in self.get_all_sessions()]
 
 # Example usage
 #chat_manager = ChatSessionManager()

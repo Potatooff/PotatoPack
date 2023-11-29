@@ -16,6 +16,8 @@ class Database_ChatHistory:
         else:
             print(f"Chat {chat_name} already exists. Choose a different name.")
 
+        return chat_name
+
 
     def add_user_query(self, user_query):
         chat_name: str = f"chat_{len(self.get_all_chats())}"
@@ -114,6 +116,25 @@ class Database_ChatHistory:
             print("Chat history loaded successfully!")
         except FileNotFoundError:
             print(f"File {self.file_name} not found. Starting with an empty chat history.")
+
+    def delete_session(self):
+        from os import path, remove
+        if path.exists(self.file_name):
+            remove(self.file_name)
+            print(f"File at {self.file_name} successfully deleted, bro!")
+        else:
+            print(f"Couldn't find the file at {self.file_name}, dawg. Double-check that path!")
+
+
+    def get_all_message_in_list(self):
+        all_messages = []
+        for i in self.chat_history:
+            if self.chat_history[i] != {}:
+                all_messages.append(self.chat_history[i])
+        return all_messages
+    
+
+print(Database_ChatHistory(r"C:\Users\Chris\Desktop\potatoui\data\app\history\chat_session_3FLZMROYBVD3DVR.json").get_all_message_in_list())
 
 """
 # Example usage:

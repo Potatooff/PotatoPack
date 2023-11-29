@@ -15,6 +15,7 @@ from src.app.components.chathistory import Component_Chat_History
 
 from src.database.History import Database_ChatHistory
 
+
 class Component_Sidebar(c.CTkFrame):
 
     def __init__(
@@ -57,9 +58,8 @@ class Component_Sidebar(c.CTkFrame):
         self.top_bar = Component_TopBar(self, width=200, height=50, fg_color=SIDEBAR_BG_COLOR)
         self.top_bar.grid(row=0, column=0, padx=0, pady=5)
 
-
         # List of chat session 
-        self.section = Component_Section(self, width=200, height=50, fg_color=SIDEBAR_BG_COLOR, item_list="")
+        self.section = Component_Section(self, width=200, height=50, fg_color=SIDEBAR_BG_COLOR, item_list=ChatSessionManager().format_all_sessions())
         self.section.grid(row=1, rowspan=4, column=0, padx=0, pady=5, sticky="nsew")
      
 
@@ -79,7 +79,7 @@ class Component_Sidebar(c.CTkFrame):
         count = self.count + 1
 
         # Add a new chat session tab
-        self.section.add_session_tab(f"Item {count}")
+        self.section.add_session_tab(f"Chat {count}")
 
         self.count += 1
         
@@ -169,11 +169,13 @@ class Component_Section(c.CTkScrollableFrame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)  # Only one row at the top
 
-        for i, item in enumerate(item_list):
-            self.add_item(item)
-
         # List of chat session
         self.session_tabs: list = []
+
+        for i, item in enumerate(item_list):
+            self.Load_session(item)
+
+
 
 
         
@@ -195,8 +197,8 @@ class Component_Section(c.CTkScrollableFrame):
         # Create a new chat session on storage
         Session_ID = GenerateRandomID()
         Session_Chat_file_history = path.join(data_app_history_path, f"chat_session_{Session_ID}.json")
-        ChatSessionManager().add_chat_session(Session_Chat_file_history)
-        Database_ChatHistory(Session_Chat_file_history).add_chat()
+        sessionname = ChatSessionManager().add_chat_session(Session_Chat_file_history)
+        chatname = Database_ChatHistory(Session_Chat_file_history).add_chat()
 
         # Functionnality
         def close_session_tab_on_click() -> None:
@@ -206,7 +208,10 @@ class Component_Section(c.CTkScrollableFrame):
                     i[0].destroy()
                     i[1].destroy()
                     self.session_tabs.remove(i)
+                    ChatSessionManager().delete_chat_session(sessionname)
+                    Database_ChatHistory(Session_Chat_file_history).delete_session()
                     break
+
             session_tab.destroy()
             if self.session_tabs == []:
                 self.master.master.master.master.default_chat_history.grid(row=0, rowspan=5, column=1, padx=(0, 0), pady=0, sticky="nsew")
@@ -232,7 +237,7 @@ class Component_Section(c.CTkScrollableFrame):
 
         # Every Components
         chat_history: Component_Chat_History = Component_Chat_History(self.master.master.master.master, fg_color=BG_COLOR, 
-        message_history=Session_Chat_file_history)#, label_text="PotatoGPT v1.0.0")  # This is the chat session / history
+        message_history=Session_Chat_file_history, chatNAME=sessionname)#, label_text="PotatoGPT v1.0.0")  # This is the chat session / history
         session_tab = c.CTkFrame(self, fg_color=SIDEBAR_BG_COLOR, corner_radius=8)
 
 
@@ -270,6 +275,92 @@ class Component_Section(c.CTkScrollableFrame):
         except Exception as e:
             print(e)
 
+
+    def Load_session(self, name) -> None:
+
+        # Load chat session from storage
+        Session_Chat_file_history = ChatSessionManager().get_file_paths(f"chat_{name}")[0]
+
+        sessionname = f"chat_{name}"
+
+
+       # for i in messages:
+            
+
+        # Functionnality
+        def close_session_tab_on_click() -> None:
+            """Close the chat session tab when the button get clicked"""
+            for i in self.session_tabs:
+                if i[0] == session_tab:
+                    i[0].destroy()
+                    i[1].destroy()
+                    self.session_tabs.remove(i)
+                    ChatSessionManager().delete_chat_session(sessionname)
+                    Database_ChatHistory(Session_Chat_file_history).delete_session()
+                    break
+
+            session_tab.destroy()
+            if self.session_tabs == []:
+                self.master.master.master.master.default_chat_history.grid(row=0, rowspan=5, column=1, padx=(0, 0), pady=0, sticky="nsew")
+
+
+        def open_chat_history_on_click() -> None:
+            """Open the chat history when the button get clicked"""
+            self.delete_everything()
+            for i in self.session_tabs:
+                i[0].configure(fg_color=SIDEBAR_BG_COLOR)
+
+                start_row, rowspan =  0, 1
+                widgets_in_range = [i[0].grid_slaves(row=0, column=1) for row in range(start_row, start_row + rowspan)]
+                widgets_in_range = [widget for sublist in widgets_in_range for widget in sublist]
+                if widgets_in_range:
+                    for widget in widgets_in_range:
+                        widget.grid_forget()
+
+            chat_history.grid(row=0, rowspan=5, column=1, padx=(0, 0), pady=0, sticky="nsew")
+            session_tab.configure(fg_color=SIDEBAR_BUTTON_BG_COLOR)
+            close_session_tab.grid(row=0, column=1, padx=(5, 2), pady=(3, 3), sticky="e")
+        
+
+        # Every Components
+        chat_history: Component_Chat_History = Component_Chat_History(self.master.master.master.master, fg_color=BG_COLOR, 
+        message_history=Session_Chat_file_history, chatNAME=sessionname)#, label_text="PotatoGPT v1.0.0")  # This is the chat session / history
+        session_tab = c.CTkFrame(self, fg_color=SIDEBAR_BG_COLOR, corner_radius=8)
+
+
+        # Session tab grid layout
+        session_tab.grid_columnconfigure((0, 1), weight=1)
+
+        # New button to open chat session
+        open_chat_history: c.CTkButton = c.CTkButton(session_tab, text=f"   {truncate_string(name)}", width=150, fg_color="transparent",
+                                        corner_radius=5, image=potato_icon, compound="left", anchor="w", hover=False,
+                                        font=(font_raleway_var, 13), command=open_chat_history_on_click)
+        
+
+        # Close button to close chat session
+        close_session_tab: c.CTkButton = c.CTkButton(session_tab, text="", width=50, image=close_sidebar_icon, compound="right",
+                                    anchor="e", fg_color="transparent", corner_radius=5, hover=False,
+                                    command=close_session_tab_on_click)
+
+
+        # ALL GRIDS
+        open_chat_history.grid(row=0, column=0, padx=(10, 0), pady=(10, 10), sticky="w")
+        session_tab.grid(row=0, column=0, pady=5, padx=0, sticky="ew")
+        self.session_tabs.insert(0, (session_tab, chat_history))
+        open_chat_history_on_click()
+
+
+        try:
+            row: int = 0
+            for i in self.session_tabs:
+                i[0].grid_forget()
+                i[0].grid(row= (row + 1), column=0, pady=5, padx=0, sticky="ew")
+                row += 1
+
+            del row
+
+        except Exception as e:
+            print(e)
 
         
 
