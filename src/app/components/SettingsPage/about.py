@@ -26,7 +26,7 @@ class Settings_AboutPage(c.CTkFrame):
 
 
         # Button
-        self.button: c.CTkButton = c.CTkButton(self, image=about_icon, fg_color=BG_COLOR, text="  General", border_width=3,
+        self.button: c.CTkButton = c.CTkButton(self, image=about_icon, fg_color=BG_COLOR, text="  About", border_width=3,
                                                compound="left", anchor="w", font=(font_raleway_var, 22), height=75
                                               )
         

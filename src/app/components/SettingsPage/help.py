@@ -28,7 +28,7 @@ class Settings_HelpPage(c.CTkFrame):
 
 
         # Button
-        self.button: c.CTkButton = c.CTkButton(self, image=help_icon, fg_color=BG_COLOR, text="  General", border_width=3,
+        self.button: c.CTkButton = c.CTkButton(self, image=help_icon, fg_color=BG_COLOR, text="  Help", border_width=3,
                                                compound="left", anchor="w", font=(font_raleway_var, 22), height=75
                                               )
         

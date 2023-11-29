@@ -268,8 +268,11 @@ class Component_Chat_History(c.CTkFrame):
             chat_history = Database_ChatHistory(self.chat_history_file_path).get_all_message_in_list()
             for i in chat_history:
                 try:
-                    if i["user_query"] != "":
-                        self.Load_user_message(i["user_query"], chatName=chat_name)
+                    try:
+                        if i["user_query"]:
+                            self.Load_user_message(i["user_query"], chatName=chat_name)
+                    except Exception as e:
+                        print(e)
                     
                     try:
                         if i["chatbot_response"][1]:
